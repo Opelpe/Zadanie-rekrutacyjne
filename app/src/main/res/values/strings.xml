@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Zadanie rekrutacyjne - GoPOS</string>
+    <string name="product_name_text">NAZWA PRODUKTU</string>
+    <string name="price_text">Cena</string>
+    <string name="tax_text">Stawka VAT</string>
+    <string name="category_text">Kategoria:</string>
 </resources>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/nameTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/product_name_text"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:paddingTop="15dp"
+        android:textAlignment="viewStart"
+        android:textSize="@dimen/size_big_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/categoryJustText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:text="@string/category_text"
+        android:textSize="@dimen/size_small_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nameTextView" />
+
+    <TextView
+        android:id="@+id/categoryTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:textSize="@dimen/size_small_text"
+        app:layout_constraintEnd_toStartOf="@id/itemImageView"
+        app:layout_constraintStart_toEndOf="@id/categoryJustText"
+        app:layout_constraintTop_toTopOf="@id/categoryJustText" />
+
+    <TextView
+        android:id="@+id/priceJustText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:padding="5dp"
+        android:text="@string/price_text"
+        android:textSize="@dimen/size_medium_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/categoryJustText" />
+
+    <TextView
+        android:id="@+id/priceTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="0,00"
+        android:padding="5dp"
+        android:textAlignment="viewStart"
+        android:textSize="@dimen/size_medium_text"
+        app:layout_constraintEnd_toStartOf="@id/itemImageView"
+        app:layout_constraintStart_toEndOf="@id/priceJustText"
+        app:layout_constraintTop_toTopOf="@id/priceJustText" />
+
+    <TextView
+        android:id="@+id/taxJustText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:padding="5dp"
+        android:text="@string/tax_text"
+        android:textSize="@dimen/size_medium_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/priceTextView" />
+
+    <TextView
+        android:id="@+id/taxTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="0%"
+        android:padding="5dp"
+        android:textAlignment="viewStart"
+        android:textSize="@dimen/size_medium_text"
+        app:layout_constraintEnd_toStartOf="@id/itemImageView"
+        app:layout_constraintStart_toEndOf="@id/taxJustText"
+        app:layout_constraintTop_toTopOf="@id/taxJustText" />
+
+    <ImageView
+        android:id="@+id/itemImageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/ic_image_not_supported"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/nameTextView"
+        app:layout_constraintStart_toEndOf="@id/taxTextView"
+        app:layout_constraintTop_toBottomOf="@id/nameTextView" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
