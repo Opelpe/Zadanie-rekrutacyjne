@@ -1,16 +1,20 @@
 package com.pepe.rekrutacjagopos.di.module;
 
 
-import com.pepe.rekrutacjagopos.data.remote.ItemsRetrofitService;
+import com.pepe.rekrutacjagopos.data.remote.items.ItemsRetrofitService;
+import com.pepe.rekrutacjagopos.data.remote.token.TokenService;
 
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 public class NetworkModule {
+
+    public static final String BASE_URL = "https://demo2.gopos.pl";
 
     @Provides
     OkHttpClient providesOkHttpClient() {
@@ -23,15 +27,26 @@ public class NetworkModule {
     }
 
     @Provides
-    ItemsRetrofitService providesItemsRetrofitService(OkHttpClient client){
-        //TODO add
+    ItemsRetrofitService providesItemsRetrofitService(OkHttpClient client) {
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://backend.example.com")
+                .baseUrl(BASE_URL)
                 .client(client)
-//                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         return retrofit.create(ItemsRetrofitService.class);
+    }
+
+    @Provides
+    TokenService providesTokenService(OkHttpClient client) {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        return retrofit.create(TokenService.class);
     }
 }
