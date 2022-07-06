@@ -1,4 +1,4 @@
-package com.pepe.zadanierekrutacyjne_gopos;
+package com.pepe.rekrutacjagopos;
 
 import android.content.Context;
 

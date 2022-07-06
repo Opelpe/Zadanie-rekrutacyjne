@@ -1,4 +1,4 @@
-package com.pepe.zadanierekrutacyjne_gopos.ui.items;
+package com.pepe.rekrutacjagopos.ui.items;
 
 public interface ItemsContract {
     interface View{
