@@ -2,9 +2,8 @@ package com.pepe.rekrutacjagopos.data.remote;
 
 import javax.inject.Inject;
 
-public class ItemsRetrofitService {
+public interface ItemsRetrofitService {
 
-    @Inject
-    public ItemsRetrofitService() {
-    }
+    void test();
+
 }

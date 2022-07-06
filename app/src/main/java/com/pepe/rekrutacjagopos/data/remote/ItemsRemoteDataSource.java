@@ -11,4 +11,8 @@ public class ItemsRemoteDataSource {
     public ItemsRemoteDataSource(ItemsRetrofitService itemsRetrofitService) {
         this.itemsRetrofitService = itemsRetrofitService;
     }
+
+    private void test() {
+        itemsRetrofitService.test();
+    }
 }

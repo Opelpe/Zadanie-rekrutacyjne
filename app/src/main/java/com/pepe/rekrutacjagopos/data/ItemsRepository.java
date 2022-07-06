@@ -6,12 +6,12 @@ import com.pepe.rekrutacjagopos.data.remote.ItemsRemoteDataSource;
 import javax.inject.Inject;
 
 public class ItemsRepository {
-    private final com.pepe.rekrutacjagopos.data.local.ItemsLocalDataSource ItemsLocalDataSource;
-    private final com.pepe.rekrutacjagopos.data.remote.ItemsRemoteDataSource ItemsRemoteDataSource;
+    private final com.pepe.rekrutacjagopos.data.local.ItemsLocalDataSource itemsLocalDataSource;
+    private final com.pepe.rekrutacjagopos.data.remote.ItemsRemoteDataSource itemsRemoteDataSource;
 
     @Inject
-    public ItemsRepository(ItemsLocalDataSource ItemsLocalDataSource, ItemsRemoteDataSource ItemsRemoteDataSource) {
-        this.ItemsLocalDataSource = ItemsLocalDataSource;
-        this.ItemsRemoteDataSource = ItemsRemoteDataSource;
+    public ItemsRepository(ItemsLocalDataSource itemsLocalDataSource, ItemsRemoteDataSource itemsRemoteDataSource) {
+        this.itemsLocalDataSource = itemsLocalDataSource;
+        this.itemsRemoteDataSource = itemsRemoteDataSource;
     }
 }
