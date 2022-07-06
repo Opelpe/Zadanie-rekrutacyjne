@@ -2,6 +2,8 @@ package com.pepe.rekrutacjagopos.ui.items;
 
 import android.util.Log;
 
+import com.pepe.rekrutacjagopos.data.ItemsRepository;
+
 import javax.inject.Inject;
 
 public class ItemsPresenter implements ItemsContract.Presenter {
@@ -9,7 +11,7 @@ public class ItemsPresenter implements ItemsContract.Presenter {
 
 
     @Inject
-    public ItemsPresenter() {
+    public ItemsPresenter(ItemsRepository itemsRepository) {
 
     }
 
