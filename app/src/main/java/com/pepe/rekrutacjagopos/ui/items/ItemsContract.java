@@ -6,6 +6,6 @@ public interface ItemsContract {
     }
 
     interface Presenter{
-
+        void viewCreated();
     }
 }
