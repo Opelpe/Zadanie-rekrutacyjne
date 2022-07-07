@@ -10,17 +10,19 @@ import javax.inject.Inject;
 public class ItemsPresenter implements ItemsContract.Presenter {
     private static final String TAG = ItemsPresenter.class.getSimpleName();
     private final ItemsRepository itemsRepository;
-
+    private final TokenRepository tokenRepository;
 
     @Inject
-    public ItemsPresenter(ItemsRepository itemsRepository) {
+    public ItemsPresenter(ItemsRepository itemsRepository, TokenRepository tokenRepository) {
         this.itemsRepository = itemsRepository;
+        this.tokenRepository = tokenRepository;
     }
 
     @Override
     public void viewCreated() {
         Log.d(TAG, "View created");
 
+        tokenRepository.getToken();
         itemsRepository.getItems();
     }
 }

@@ -15,6 +15,9 @@ public class App extends Application {
     @Inject
     ItemsRepository itemsRepository;
 
+    @Inject
+    TokenRepository tokenRepository;
+
     @Override
     public void onCreate() {
         super.onCreate();

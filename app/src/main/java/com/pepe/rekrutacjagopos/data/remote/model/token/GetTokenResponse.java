@@ -6,5 +6,6 @@ import java.util.List;
 
 public class GetTokenResponse {
 
-    public List<TokenModel> token;
+    @SerializedName("access_token")
+    public String token;
 }
