@@ -3,7 +3,6 @@ package com.pepe.rekrutacjagopos;
 import android.app.Application;
 
 import com.pepe.rekrutacjagopos.data.remote.items.ItemsRepository;
-import com.pepe.rekrutacjagopos.data.remote.token.TokenRepository;
 import com.pepe.rekrutacjagopos.di.AppComponent;
 import com.pepe.rekrutacjagopos.di.DaggerAppComponent;
 
@@ -14,9 +13,6 @@ public class App extends Application {
 
     @Inject
     ItemsRepository itemsRepository;
-
-    @Inject
-    TokenRepository tokenRepository;
 
     @Override
     public void onCreate() {

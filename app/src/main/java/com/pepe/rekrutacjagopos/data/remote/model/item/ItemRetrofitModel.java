@@ -12,8 +12,8 @@ public class ItemRetrofitModel {
     @SerializedName("price")
     public ItemPriceModel price;
 
-    @SerializedName("category")
-    public CategoryModel category;
+    @SerializedName("category_id")
+    public int category;
 
     @SerializedName("tax_id")
     public int tax;

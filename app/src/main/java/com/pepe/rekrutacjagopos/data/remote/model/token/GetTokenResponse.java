@@ -11,6 +11,4 @@ public class GetTokenResponse {
 
     @SerializedName("token_type")
     public String type;
-
-
 }

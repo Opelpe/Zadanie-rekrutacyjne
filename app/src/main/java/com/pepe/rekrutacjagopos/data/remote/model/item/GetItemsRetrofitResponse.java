@@ -8,6 +8,4 @@ public class GetItemsRetrofitResponse {
 
     @SerializedName("data")
     public List<ItemRetrofitModel> items;
-
-
 }
