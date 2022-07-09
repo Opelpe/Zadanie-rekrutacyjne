@@ -1,5 +1,6 @@
 package com.pepe.rekrutacjagopos.data.remote.token;
 
+import com.pepe.rekrutacjagopos.data.remote.model.item.GetItemsRetrofitResponse;
 import com.pepe.rekrutacjagopos.data.remote.model.token.GetTokenResponse;
 
 import retrofit2.Call;
@@ -20,7 +21,6 @@ public interface TokenService {
             @Query("client_secret") String clientSecret,
             @Query("client_id") String clientID,
             @Query("username") String login);
-
 
 }
 

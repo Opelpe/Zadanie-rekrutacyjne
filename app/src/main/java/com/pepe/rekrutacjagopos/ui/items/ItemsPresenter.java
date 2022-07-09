@@ -22,7 +22,9 @@ public class ItemsPresenter implements ItemsContract.Presenter {
     public void viewCreated() {
         Log.d(TAG, "View created");
 
-        tokenRepository.getToken();
+//        tokenRepository.getToken();
+
+        Log.d("getItems REPO", "afterview creaed getites started");
         itemsRepository.getItems();
     }
 }

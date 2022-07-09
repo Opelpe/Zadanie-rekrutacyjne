@@ -9,4 +9,6 @@ import dagger.Component;
 public interface AppComponent {
 
     void inject(ItemsActivity itemsActivity);
+
+
 }

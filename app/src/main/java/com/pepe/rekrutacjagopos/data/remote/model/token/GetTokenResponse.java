@@ -8,4 +8,9 @@ public class GetTokenResponse {
 
     @SerializedName("access_token")
     public String token;
+
+    @SerializedName("token_type")
+    public String type;
+
+
 }

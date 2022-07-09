@@ -1,15 +1,21 @@
 package com.pepe.rekrutacjagopos.di.module;
 
 
+import androidx.annotation.NonNull;
+
 import com.pepe.rekrutacjagopos.data.remote.items.ItemsRetrofitService;
 import com.pepe.rekrutacjagopos.data.remote.token.TokenService;
 
+import java.io.IOException;
 import java.util.List;
 
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.ConnectionSpec;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
