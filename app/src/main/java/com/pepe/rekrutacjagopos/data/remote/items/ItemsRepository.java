@@ -2,20 +2,21 @@ package com.pepe.rekrutacjagopos.data.remote.items;
 
 import android.util.Log;
 
-import com.pepe.rekrutacjagopos.data.adapters.ItemsAdapter;
 import com.pepe.rekrutacjagopos.data.comparators.CategorySorter;
 import com.pepe.rekrutacjagopos.data.comparators.NameSorter;
 import com.pepe.rekrutacjagopos.data.comparators.PriceAmountSorter;
+import com.pepe.rekrutacjagopos.data.local.ObjectBox;
 import com.pepe.rekrutacjagopos.data.model.ui.ItemsUIModel;
 import com.pepe.rekrutacjagopos.data.local.ItemsLocalDataSource;
 import com.pepe.rekrutacjagopos.data.remote.model.item.ItemRetrofitModel;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
+
+import io.objectbox.Box;
 
 public class ItemsRepository {
     private final com.pepe.rekrutacjagopos.data.local.ItemsLocalDataSource itemsLocalDataSource;
@@ -24,14 +25,17 @@ public class ItemsRepository {
     private static final String TAG = ItemsRepository.class.getSimpleName();
 
     private ItemsListener itemsListener;
+    private Box<ItemsLocalDataSource> localBox;
 
     public interface ItemsListener {
         void onItemsLoaded(List<ItemsUIModel> itemsUIModel);
     }
 
-    private final ItemsRemoteDataSource.dataListener dataListener = new ItemsRemoteDataSource.dataListener() {
+    private final ItemsRemoteDataSource.DataListener dataListener = new ItemsRemoteDataSource.DataListener() {
         @Override
         public void onItemsLoaded(List<ItemRetrofitModel> retrofitResponse) {
+            localBox = ObjectBox.get().boxFor(ItemsLocalDataSource.class);
+
             if (retrofitResponse != null) {
 
                 retrofitResponse.sort(new CategorySorter()
@@ -39,7 +43,12 @@ public class ItemsRepository {
                         .thenComparing(new NameSorter()));
 
                 List<ItemsUIModel> itemsUIModelList = new ArrayList<>();
+
+                itemsLocalDataSource.productName = new ArrayList<>();
+
                 for (int i = 0; i < retrofitResponse.size(); i++) {
+
+                    itemsLocalDataSource.productName.add(retrofitResponse.get(i).name);
 
                     ItemsUIModel itemsUIModel;
 
@@ -47,13 +56,14 @@ public class ItemsRepository {
                         itemsUIModel = new ItemsUIModel(formatName(retrofitResponse.get(i).name), formatCategory(retrofitResponse.get(i).category),
                                 formatPrice(retrofitResponse.get(i).price.amount, retrofitResponse.get(i).price.currency),
                                 formatTax(retrofitResponse.get(i).tax), retrofitResponse.get(i).imageModel.smallImage);
-                    }else {
+
+                    } else {
                         itemsUIModel = new ItemsUIModel(formatName(retrofitResponse.get(i).name), formatCategory(retrofitResponse.get(i).category),
                                 formatPrice(retrofitResponse.get(i).price.amount, retrofitResponse.get(i).price.currency), formatTax(retrofitResponse.get(i).tax));
                     }
-
                     itemsUIModelList.add(itemsUIModel);
                 }
+                localBox.put(itemsLocalDataSource);
                 itemsListener.onItemsLoaded(itemsUIModelList);
             }
         }

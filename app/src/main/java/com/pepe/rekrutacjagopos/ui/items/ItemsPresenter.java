@@ -14,7 +14,6 @@ public class ItemsPresenter implements ItemsContract.Presenter {
     private final ItemsRepository itemsRepository;
     private ItemsContract.View view;
 
-
     @Inject
     public ItemsPresenter(ItemsRepository itemsRepository) {//}, ItemsContract.View view) {
         this.itemsRepository = itemsRepository;
@@ -24,15 +23,14 @@ public class ItemsPresenter implements ItemsContract.Presenter {
     private ItemsRepository.ItemsListener itemsListener = new ItemsRepository.ItemsListener() {
         @Override
         public void onItemsLoaded(List<ItemsUIModel> itemsUIModel) {
-            Log.d(TAG, "ON ITEMS LOADED SUCCESS");
+            Log.d(TAG, "ON ITEMS LOADED EXECUTED");
             view.setProductsView(itemsUIModel);
-
         }
     };
 
     @Override
     public void viewCreated(ItemsContract.View view) {
-        Log.d(TAG, "View created");
+        Log.d(TAG, "VIEW HAS BEEN CREATED!");
 
         this.view = view;
         itemsRepository.setItemsListener(itemsListener);

@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pepe.rekrutacjagopos.R;
+import com.pepe.rekrutacjagopos.data.local.ItemsLocalDataSource;
 import com.pepe.rekrutacjagopos.data.model.ui.ItemsUIModel;
 import com.squareup.picasso.Picasso;
 
@@ -53,7 +54,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 itemsViewHolder.productCategory.setText(itemsUIModel.get(i).category);
                 itemsViewHolder.productPrice.setText(itemsUIModel.get(i).price);
                 itemsViewHolder.productTax.setText(itemsUIModel.get(i).tax);
-
             }
         }
     }
@@ -73,12 +73,12 @@ public class ItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         public ItemsViewHolder(@NonNull View itemView) {
             super(itemView);
+
             productName = itemView.findViewById(R.id.nameTextView);
             productCategory = itemView.findViewById(R.id.categoryTextView);
             productPrice = itemView.findViewById(R.id.priceTextView);
             productTax = itemView.findViewById(R.id.taxTextView);
             productImage = itemView.findViewById(R.id.itemImageView);
-
         }
     }
 }

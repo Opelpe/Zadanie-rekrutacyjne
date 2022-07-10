@@ -2,6 +2,7 @@ package com.pepe.rekrutacjagopos;
 
 import android.app.Application;
 
+import com.pepe.rekrutacjagopos.data.local.ObjectBox;
 import com.pepe.rekrutacjagopos.data.remote.items.ItemsRepository;
 import com.pepe.rekrutacjagopos.di.AppComponent;
 import com.pepe.rekrutacjagopos.di.DaggerAppComponent;
@@ -17,5 +18,6 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        ObjectBox.init(getApplicationContext());
     }
 }

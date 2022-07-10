@@ -4,7 +4,12 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+import io.objectbox.annotation.Entity;
+import io.objectbox.annotation.Id;
+
+
 public class ItemRetrofitModel {
+
 
     @SerializedName("name")
     public String name;

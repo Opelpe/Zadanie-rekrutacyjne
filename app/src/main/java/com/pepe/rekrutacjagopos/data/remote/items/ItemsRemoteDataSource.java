@@ -18,6 +18,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ItemsRemoteDataSource {
+
     private static final String TAG = ItemsService.class.getSimpleName();
 
     private final ItemsService itemsService;
@@ -29,13 +30,13 @@ public class ItemsRemoteDataSource {
     private final String clientID = "073481d0-549e-4eac-9174-27cd2432f149";
     private final String login = "zadanie@zadanie.com";
 
-    private dataListener dataListener;
+    private DataListener dataListener;
 
-    public interface dataListener {
+    public interface DataListener {
         void onItemsLoaded(List<ItemRetrofitModel> retrofitResponse);
     }
 
-    public void setItemsListener(dataListener dataListener) {
+    public void setItemsListener(DataListener dataListener) {
         this.dataListener = dataListener;
     }
 
@@ -53,11 +54,10 @@ public class ItemsRemoteDataSource {
 
                 Log.d(TAG, "GET ITEMS TOKEN response: " + response.body().token);
 
-
                 itemsService.getItems(response.body().type + response.body().token, ORGANIZATION_ID).enqueue(new Callback<GetItemsRetrofitResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<GetItemsRetrofitResponse> call, @NonNull Response<GetItemsRetrofitResponse> response) {
-                        Log.d(TAG, "On items Retrofit response: " + response.code());
+                        Log.d(TAG, "Get items Retrofit response: " + response.code());
                         GetItemsRetrofitResponse retrofitResponse = response.body();
 
                         if (retrofitResponse != null) {
@@ -67,7 +67,7 @@ public class ItemsRemoteDataSource {
 
                     @Override
                     public void onFailure(@NonNull Call<GetItemsRetrofitResponse> call, @NonNull Throwable throwable) {
-                        Log.d(TAG, "On items Retrofit response FAILURE: " + throwable);
+                        Log.d(TAG, "Get items Retrofit response FAILURE: " + throwable);
                     }
                 });
             }

@@ -11,5 +11,6 @@ import retrofit2.http.Query;
 public interface ItemsService {
 
     @GET("api/v3/{organizationId}/items")
-    Call<GetItemsRetrofitResponse> getItems(@Header("Authorization") String token, @Path("organizationId") int organizationId);
+    Call<GetItemsRetrofitResponse> getItems(@Header("Authorization") String token,
+                                            @Path("organizationId") int organizationId);
 }
