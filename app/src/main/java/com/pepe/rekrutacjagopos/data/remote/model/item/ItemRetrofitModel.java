@@ -17,4 +17,9 @@ public class ItemRetrofitModel {
 
     @SerializedName("tax_id")
     public int tax;
+
+    @SerializedName("image_link")
+    public ImageModel imageModel;
+
+
 }

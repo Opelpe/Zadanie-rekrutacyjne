@@ -2,10 +2,12 @@ buildscript {
     ext.objectboxVersion = "3.2.1"
     repositories {
         mavenCentral()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     }
     dependencies {
         classpath("com.android.tools.build:gradle:7.1.3")
         classpath("io.objectbox:objectbox-gradle-plugin:$objectboxVersion")
+
     }
 }
 

@@ -2,6 +2,7 @@ package com.pepe.rekrutacjagopos.data.remote.items;
 
 import android.util.Log;
 
+import com.pepe.rekrutacjagopos.data.adapters.ItemsAdapter;
 import com.pepe.rekrutacjagopos.data.comparators.CategorySorter;
 import com.pepe.rekrutacjagopos.data.comparators.NameSorter;
 import com.pepe.rekrutacjagopos.data.comparators.PriceAmountSorter;
@@ -19,6 +20,8 @@ import javax.inject.Inject;
 public class ItemsRepository {
     private final com.pepe.rekrutacjagopos.data.local.ItemsLocalDataSource itemsLocalDataSource;
     private final ItemsRemoteDataSource itemsRemoteDataSource;
+
+    private static final String TAG = ItemsRepository.class.getSimpleName();
 
     private ItemsListener itemsListener;
 
@@ -38,8 +41,16 @@ public class ItemsRepository {
                 List<ItemsUIModel> itemsUIModelList = new ArrayList<>();
                 for (int i = 0; i < retrofitResponse.size(); i++) {
 
-                    ItemsUIModel itemsUIModel = new ItemsUIModel(formatName(retrofitResponse.get(i).name), formatCategory(retrofitResponse.get(i).category),
-                            formatPrice(retrofitResponse.get(i).price.amount, retrofitResponse.get(i).price.currency), formatTax(retrofitResponse.get(i).tax));
+                    ItemsUIModel itemsUIModel;
+
+                    if (retrofitResponse.get(i).imageModel != null) {
+                        itemsUIModel = new ItemsUIModel(formatName(retrofitResponse.get(i).name), formatCategory(retrofitResponse.get(i).category),
+                                formatPrice(retrofitResponse.get(i).price.amount, retrofitResponse.get(i).price.currency),
+                                formatTax(retrofitResponse.get(i).tax), retrofitResponse.get(i).imageModel.smallImage);
+                    }else {
+                        itemsUIModel = new ItemsUIModel(formatName(retrofitResponse.get(i).name), formatCategory(retrofitResponse.get(i).category),
+                                formatPrice(retrofitResponse.get(i).price.amount, retrofitResponse.get(i).price.currency), formatTax(retrofitResponse.get(i).tax));
+                    }
 
                     itemsUIModelList.add(itemsUIModel);
                 }

@@ -53,6 +53,7 @@ public class ItemsRemoteDataSource {
 
                 Log.d(TAG, "GET ITEMS TOKEN response: " + response.body().token);
 
+
                 itemsService.getItems(response.body().type + response.body().token, ORGANIZATION_ID).enqueue(new Callback<GetItemsRetrofitResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<GetItemsRetrofitResponse> call, @NonNull Response<GetItemsRetrofitResponse> response) {
@@ -60,7 +61,6 @@ public class ItemsRemoteDataSource {
                         GetItemsRetrofitResponse retrofitResponse = response.body();
 
                         if (retrofitResponse != null) {
-
                             dataListener.onItemsLoaded(retrofitResponse.items);
                         }
                     }

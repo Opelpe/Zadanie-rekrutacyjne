@@ -11,6 +11,7 @@ import com.pepe.rekrutacjagopos.App;
 import com.pepe.rekrutacjagopos.R;
 import com.pepe.rekrutacjagopos.data.adapters.ItemsAdapter;
 import com.pepe.rekrutacjagopos.data.model.ui.ItemsUIModel;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -43,7 +44,6 @@ public class ItemsActivity extends AppCompatActivity implements ItemsContract.Vi
         Log.d(TAG, "set Items View: " + itemsUIModel.size());
         ItemsAdapter adapter = new ItemsAdapter(itemsUIModel);
         productsRV.setAdapter(adapter);
-
     }
 }
 
