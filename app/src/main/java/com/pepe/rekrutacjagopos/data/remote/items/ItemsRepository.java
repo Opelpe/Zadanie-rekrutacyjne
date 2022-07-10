@@ -2,11 +2,15 @@ package com.pepe.rekrutacjagopos.data.remote.items;
 
 import android.util.Log;
 
+import com.pepe.rekrutacjagopos.data.comparators.CategorySorter;
+import com.pepe.rekrutacjagopos.data.comparators.NameSorter;
+import com.pepe.rekrutacjagopos.data.comparators.PriceAmountSorter;
 import com.pepe.rekrutacjagopos.data.model.ui.ItemsUIModel;
 import com.pepe.rekrutacjagopos.data.local.ItemsLocalDataSource;
 import com.pepe.rekrutacjagopos.data.remote.model.item.ItemRetrofitModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -16,30 +20,35 @@ public class ItemsRepository {
     private final com.pepe.rekrutacjagopos.data.local.ItemsLocalDataSource itemsLocalDataSource;
     private final ItemsRemoteDataSource itemsRemoteDataSource;
 
-    private List<ItemRetrofitModel> parsedItems = new ArrayList();
     private ItemsListener itemsListener;
 
     public interface ItemsListener {
-        void onItemsLoaded(ItemsUIModel itemsUIModel);
+        void onItemsLoaded(List<ItemsUIModel> itemsUIModel);
     }
 
     private final ItemsRemoteDataSource.dataListener dataListener = new ItemsRemoteDataSource.dataListener() {
         @Override
         public void onItemsLoaded(List<ItemRetrofitModel> retrofitResponse) {
             if (retrofitResponse != null) {
-                parsedItems = retrofitResponse;
-                for (int i = 0; i < parsedItems.size(); i++) {
 
-                    ItemsUIModel itemsUIModel = new ItemsUIModel(formatName(parsedItems.get(i).name), formatCategory(parsedItems.get(i).category),
-                            formatPrice(parsedItems.get(i).price.amount, parsedItems.get(i).price.currency), formatTax(parsedItems.get(i).tax));
+                retrofitResponse.sort(new CategorySorter()
+                        .thenComparing(new PriceAmountSorter())
+                        .thenComparing(new NameSorter()));
 
-                    itemsListener.onItemsLoaded(itemsUIModel);
+                List<ItemsUIModel> itemsUIModelList = new ArrayList<>();
+                for (int i = 0; i < retrofitResponse.size(); i++) {
+
+                    ItemsUIModel itemsUIModel = new ItemsUIModel(formatName(retrofitResponse.get(i).name), formatCategory(retrofitResponse.get(i).category),
+                            formatPrice(retrofitResponse.get(i).price.amount, retrofitResponse.get(i).price.currency), formatTax(retrofitResponse.get(i).tax));
+
+                    itemsUIModelList.add(itemsUIModel);
                 }
+                itemsListener.onItemsLoaded(itemsUIModelList);
             }
         }
     };
 
-    public void setFormattedItemsListener(ItemsListener listener) {
+    public void setItemsListener(ItemsListener listener) {
         itemsListener = listener;
     }
 
@@ -86,12 +95,7 @@ public class ItemsRepository {
     }
 
     private String formatPrice(int amount, String currency) {
-
-        StringBuilder builder = new StringBuilder();
-        return builder.append(amount)
-                .append(" ")
-                .append(currency)
-                .toString();
+        return amount + " " + currency;
     }
 
     private String formatName(String name) {

@@ -7,7 +7,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Path;
 
-public interface ItemsRetrofitService {
+public interface ItemsService {
 
     @GET("api/v3/{organizationId}/items")
     Call<GetItemsRetrofitResponse> getItems(@Header("Authorization") String token, @Path("organizationId") int organizationId);

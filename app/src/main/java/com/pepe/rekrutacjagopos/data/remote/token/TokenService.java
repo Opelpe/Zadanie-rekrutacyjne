@@ -1,21 +1,15 @@
 package com.pepe.rekrutacjagopos.data.remote.token;
 
-import com.pepe.rekrutacjagopos.data.remote.model.item.GetItemsRetrofitResponse;
-import com.pepe.rekrutacjagopos.data.remote.model.token.GetTokenResponse;
+import com.pepe.rekrutacjagopos.data.remote.model.token.TokenModel;
 
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.POST;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface TokenService {
 
     @GET("/oauth/token?")
-    Call<GetTokenResponse> getToken(
+    Call<TokenModel> getToken(
             @Query("password") String password,
             @Query("grant_type") String type,
             @Query("client_secret") String clientSecret,

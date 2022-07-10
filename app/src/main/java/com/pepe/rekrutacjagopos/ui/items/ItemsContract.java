@@ -1,11 +1,16 @@
 package com.pepe.rekrutacjagopos.ui.items;
 
-public interface ItemsContract {
-    interface View{
+import com.pepe.rekrutacjagopos.data.model.ui.ItemsUIModel;
 
+import java.util.List;
+
+public interface ItemsContract {
+
+    interface View {
+        void setProductsView(List<ItemsUIModel> itemsUIModel);
     }
 
     interface Presenter{
-        void viewCreated();
+        void viewCreated(ItemsContract.View view);
     }
 }

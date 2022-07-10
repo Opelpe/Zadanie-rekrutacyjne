@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class GetTokenResponse {
+public class TokenModel {
 
     @SerializedName("access_token")
     public String token;
