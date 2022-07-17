@@ -11,14 +11,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pepe.rekrutacjagopos.R;
-import com.pepe.rekrutacjagopos.data.local.ItemsLocalDataSource;
+import com.pepe.rekrutacjagopos.data.local.ObjectBox;
 import com.pepe.rekrutacjagopos.data.model.ui.ItemsUIModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import io.objectbox.Box;
+
 public class ItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final String TAG = ItemsAdapter.class.getSimpleName();
+
+
 
     private List<ItemsUIModel> itemsUIModel;
 
@@ -32,7 +36,11 @@ public class ItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_product, parent, false);
 
-        return new ItemsViewHolder(itemView);
+        Box<ItemsUIModel> itemsBox = ObjectBox.get().boxFor(ItemsUIModel.class);
+        List<ItemsUIModel> items = itemsBox.getAll();
+
+
+        return new ItemsViewHolder(itemView, items);
     }
 
     @Override
@@ -54,6 +62,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 itemsViewHolder.productCategory.setText(itemsUIModel.get(i).category);
                 itemsViewHolder.productPrice.setText(itemsUIModel.get(i).price);
                 itemsViewHolder.productTax.setText(itemsUIModel.get(i).tax);
+                Log.d(TAG, "ADAPTER, names: " + itemsUIModel.get(i).name);
             }
         }
     }
@@ -71,8 +80,10 @@ public class ItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public TextView productTax;
         public ImageView productImage;
 
-        public ItemsViewHolder(@NonNull View itemView) {
+        public ItemsViewHolder(@NonNull View itemView, List<ItemsUIModel> items) {
             super(itemView);
+
+
 
             productName = itemView.findViewById(R.id.nameTextView);
             productCategory = itemView.findViewById(R.id.categoryTextView);

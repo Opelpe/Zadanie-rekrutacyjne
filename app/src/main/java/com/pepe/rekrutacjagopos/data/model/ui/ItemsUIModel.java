@@ -2,7 +2,13 @@ package com.pepe.rekrutacjagopos.data.model.ui;
 
 import com.pepe.rekrutacjagopos.data.adapters.ItemsAdapter;
 
+import io.objectbox.annotation.Entity;
+import io.objectbox.annotation.Id;
+
+@Entity
 public class ItemsUIModel {
+
+    @Id long id;
 
     public String defaultImage;
     public String name;
