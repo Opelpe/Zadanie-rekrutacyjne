@@ -11,19 +11,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pepe.rekrutacjagopos.R;
-import com.pepe.rekrutacjagopos.data.local.ItemsLocalDataSource;
-import com.pepe.rekrutacjagopos.data.model.ui.ItemsUIModel;
+import com.pepe.rekrutacjagopos.data.local.ObjectBox;
+import com.pepe.rekrutacjagopos.data.model.ui.ItemModelUI;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import io.objectbox.Box;
+
 public class ItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final String TAG = ItemsAdapter.class.getSimpleName();
 
-    private List<ItemsUIModel> itemsUIModel;
+    private List<ItemModelUI> itemModelUI;
 
-    public ItemsAdapter(List<ItemsUIModel> itemsUIModel) {
-        this.itemsUIModel = itemsUIModel;
+    public ItemsAdapter(List<ItemModelUI> itemModelUI) {
+        this.itemModelUI = itemModelUI;
     }
 
     @NonNull
@@ -40,27 +42,26 @@ public class ItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         ItemsViewHolder itemsViewHolder = (ItemsViewHolder) holder;
 
-        for (int i = 0; i < itemsUIModel.size(); i++) {
+        for (int i = 0; i < itemModelUI.size(); i++) {
 
             if (position == i) {
 
-                if (itemsUIModel.get(i).defaultImage != null) {
-                    Picasso.with(itemsViewHolder.itemView.getContext()).load(itemsUIModel.get(i).defaultImage).into(itemsViewHolder.productImage);
+                if (itemModelUI.get(i).defaultImage != null) {
+                    Picasso.with(itemsViewHolder.itemView.getContext()).load(itemModelUI.get(i).defaultImage).into(itemsViewHolder.productImage);
                 } else {
                     itemsViewHolder.productImage.setImageResource(R.drawable.ic_image_not_supported);
                 }
-
-                itemsViewHolder.productName.setText(itemsUIModel.get(i).name);
-                itemsViewHolder.productCategory.setText(itemsUIModel.get(i).category);
-                itemsViewHolder.productPrice.setText(itemsUIModel.get(i).price);
-                itemsViewHolder.productTax.setText(itemsUIModel.get(i).tax);
+                itemsViewHolder.productName.setText(itemModelUI.get(i).name);
+                itemsViewHolder.productCategory.setText(itemModelUI.get(i).category);
+                itemsViewHolder.productPrice.setText(itemModelUI.get(i).price);
+                itemsViewHolder.productTax.setText(itemModelUI.get(i).tax);
             }
         }
     }
 
     @Override
     public int getItemCount() {
-        return itemsUIModel.size();
+        return itemModelUI.size();
     }
 
     class ItemsViewHolder extends RecyclerView.ViewHolder {

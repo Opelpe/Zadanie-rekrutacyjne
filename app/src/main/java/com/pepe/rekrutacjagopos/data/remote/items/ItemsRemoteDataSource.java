@@ -4,7 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.pepe.rekrutacjagopos.data.remote.model.item.GetItemsRetrofitResponse;
+import com.pepe.rekrutacjagopos.data.remote.model.item.ItemsRetrofitResponse;
 import com.pepe.rekrutacjagopos.data.remote.model.item.ItemRetrofitModel;
 import com.pepe.rekrutacjagopos.data.remote.model.token.TokenModel;
 import com.pepe.rekrutacjagopos.data.remote.token.TokenService;
@@ -20,24 +20,18 @@ import retrofit2.Response;
 public class ItemsRemoteDataSource {
 
     private static final String TAG = ItemsService.class.getSimpleName();
+    private static DataListener dataListener;
 
     private final ItemsService itemsService;
     private final TokenService tokenService;
     private final int ORGANIZATION_ID = 27;
 
-    private final String password = "zadanie";
-    private final String clientSecret = "dc6d8a5e-861b-4df8-bb6b-9889c106161d";
-    private final String clientID = "073481d0-549e-4eac-9174-27cd2432f149";
-    private final String login = "zadanie@zadanie.com";
-
-    private DataListener dataListener;
-
     public interface DataListener {
-        void onItemsLoaded(List<ItemRetrofitModel> retrofitResponse);
+        void onResponse(List<ItemRetrofitModel> retrofitResponse);
     }
 
-    public void setItemsListener(DataListener dataListener) {
-        this.dataListener = dataListener;
+    public void setDataListener(DataListener dataListener) {
+        ItemsRemoteDataSource.dataListener = dataListener;
     }
 
     @Inject
@@ -46,27 +40,28 @@ public class ItemsRemoteDataSource {
         this.tokenService = tokenService;
     }
 
-    public void getItems() {
+    public void getRemoteItems() {
+
+        String clientSecret = "dc6d8a5e-861b-4df8-bb6b-9889c106161d";
+        String password = "zadanie";
+        String clientID = "073481d0-549e-4eac-9174-27cd2432f149";
+        String login = "zadanie@zadanie.com";
 
         tokenService.getToken(password, "password", clientSecret, clientID, login).enqueue(new Callback<TokenModel>() {
             @Override
             public void onResponse(@NonNull Call<TokenModel> call, @NonNull Response<TokenModel> response) {
 
-                Log.d(TAG, "GET ITEMS TOKEN response: " + response.body().token);
-
-                itemsService.getItems(response.body().type + response.body().token, ORGANIZATION_ID).enqueue(new Callback<GetItemsRetrofitResponse>() {
+                itemsService.getItems(response.body().type + response.body().token, ORGANIZATION_ID).enqueue(new Callback<ItemsRetrofitResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<GetItemsRetrofitResponse> call, @NonNull Response<GetItemsRetrofitResponse> response) {
+                    public void onResponse(@NonNull Call<ItemsRetrofitResponse> call, @NonNull Response<ItemsRetrofitResponse> response) {
                         Log.d(TAG, "Get items Retrofit response: " + response.code());
-                        GetItemsRetrofitResponse retrofitResponse = response.body();
+                        ItemsRetrofitResponse retrofitResponse = response.body();
 
-                        if (retrofitResponse != null) {
-                            dataListener.onItemsLoaded(retrofitResponse.items);
-                        }
+                            dataListener.onResponse(retrofitResponse.items);
+
                     }
-
                     @Override
-                    public void onFailure(@NonNull Call<GetItemsRetrofitResponse> call, @NonNull Throwable throwable) {
+                    public void onFailure(@NonNull Call<ItemsRetrofitResponse> call, @NonNull Throwable throwable) {
                         Log.d(TAG, "Get items Retrofit response FAILURE: " + throwable);
                     }
                 });

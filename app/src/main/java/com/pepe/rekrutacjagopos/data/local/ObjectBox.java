@@ -4,6 +4,8 @@ import android.content.Context;
 import android.mtp.MtpObjectInfo;
 
 
+import com.pepe.rekrutacjagopos.data.MyObjectBox;
+
 import io.objectbox.BoxStore;
 
 public class ObjectBox {
@@ -20,4 +22,5 @@ public class ObjectBox {
     public static BoxStore get() {
         return boxStore;
     }
+
 }
