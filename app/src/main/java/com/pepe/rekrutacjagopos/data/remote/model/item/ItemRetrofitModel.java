@@ -25,6 +25,4 @@ public class ItemRetrofitModel {
 
     @SerializedName("image_link")
     public ImageModel imageModel;
-
-
 }

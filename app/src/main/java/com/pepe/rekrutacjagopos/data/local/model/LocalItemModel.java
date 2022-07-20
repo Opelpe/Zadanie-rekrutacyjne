@@ -34,27 +34,4 @@ public class LocalItemModel {
 
     }
 
-    public void updateName(String name){
-        this.name = name;
-    }
-
-    public void updatePriceAmount(int priceAmount) {
-        this.priceAmount = priceAmount;
-    }
-
-    public void updateCurrency(String currency) {
-        this.currency = currency;
-    }
-
-    public void updateCategory(int category) {
-        this.category = category;
-    }
-
-    public void updateImageURL(String imageURL) {
-        this.imageURL =imageURL;
-    }
-
-    public void updateTax(int tax) {
-        this.tax = tax;
-    }
 }

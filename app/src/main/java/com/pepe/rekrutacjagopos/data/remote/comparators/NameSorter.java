@@ -1,12 +1,13 @@
-package com.pepe.rekrutacjagopos.data.comparators;
+package com.pepe.rekrutacjagopos.data.remote.comparators;
 
 import com.pepe.rekrutacjagopos.data.remote.model.item.ItemRetrofitModel;
 
 import java.util.Comparator;
 
-public class CategorySorter implements Comparator<ItemRetrofitModel> {
+public class NameSorter implements Comparator<ItemRetrofitModel> {
+
     @Override
     public int compare(ItemRetrofitModel t1, ItemRetrofitModel t2) {
-        return Integer.compare(t2.category, t1.category);
+        return t1.name.compareTo(t2.name);
     }
 }

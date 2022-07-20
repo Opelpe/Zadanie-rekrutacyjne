@@ -2,7 +2,6 @@ package com.pepe.rekrutacjagopos.di;
 
 import com.pepe.rekrutacjagopos.App;
 import com.pepe.rekrutacjagopos.di.module.ItemsModule;
-import com.pepe.rekrutacjagopos.di.module.SearchPresenterModule;
 import com.pepe.rekrutacjagopos.di.module.NetworkModule;
 import com.pepe.rekrutacjagopos.ui.items.ItemsActivity;
 import com.pepe.rekrutacjagopos.ui.items.ItemsContract;
