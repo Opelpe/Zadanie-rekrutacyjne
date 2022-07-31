@@ -6,12 +6,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 
 import com.pepe.rekrutacjagopos.App;
 import com.pepe.rekrutacjagopos.R;
 import com.pepe.rekrutacjagopos.data.adapters.ItemsAdapter;
-import com.pepe.rekrutacjagopos.data.model.ui.ItemsUIModel;
-import com.squareup.picasso.Picasso;
+import com.pepe.rekrutacjagopos.data.model.ui.ItemModelUI;
 
 import java.util.List;
 
@@ -34,15 +34,14 @@ public class ItemsActivity extends AppCompatActivity implements ItemsContract.Vi
 
         productsRV = findViewById(R.id.itemsRV);
         productsRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-
         presenter.viewCreated(this);
 
     }
 
     @Override
-    public void setProductsView(List<ItemsUIModel> itemsUIModel) {
-        Log.d(TAG, "set Items View: " + itemsUIModel.size());
-        ItemsAdapter adapter = new ItemsAdapter(itemsUIModel);
+    public void setProductsView(List<ItemModelUI> itemModelUI) {
+        Log.d(TAG, "set Items View: " + itemModelUI.size());
+        ItemsAdapter adapter = new ItemsAdapter(itemModelUI);
         productsRV.setAdapter(adapter);
     }
 }

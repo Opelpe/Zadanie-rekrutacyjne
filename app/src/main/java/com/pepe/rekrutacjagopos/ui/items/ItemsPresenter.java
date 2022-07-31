@@ -2,7 +2,7 @@ package com.pepe.rekrutacjagopos.ui.items;
 
 import android.util.Log;
 
-import com.pepe.rekrutacjagopos.data.model.ui.ItemsUIModel;
+import com.pepe.rekrutacjagopos.data.model.ui.ItemModelUI;
 import com.pepe.rekrutacjagopos.data.remote.items.ItemsRepository;
 
 import java.util.List;
@@ -14,26 +14,28 @@ public class ItemsPresenter implements ItemsContract.Presenter {
     private final ItemsRepository itemsRepository;
     private ItemsContract.View view;
 
+    private ItemsRepository.ProductListener listener = new ItemsRepository.ProductListener() {
+        @Override
+        public void onItemsLoaded(List<ItemModelUI> items) {
+      view.setProductsView(items);
+        }
+    };
+
+
     @Inject
     public ItemsPresenter(ItemsRepository itemsRepository) {//}, ItemsContract.View view) {
         this.itemsRepository = itemsRepository;
 //        this.view = null;
     }
 
-    private ItemsRepository.ItemsListener itemsListener = new ItemsRepository.ItemsListener() {
-        @Override
-        public void onItemsLoaded(List<ItemsUIModel> itemsUIModel) {
-            Log.d(TAG, "ON ITEMS LOADED EXECUTED");
-            view.setProductsView(itemsUIModel);
-        }
-    };
-
     @Override
     public void viewCreated(ItemsContract.View view) {
         Log.d(TAG, "VIEW HAS BEEN CREATED!");
 
         this.view = view;
-        itemsRepository.setItemsListener(itemsListener);
+
+        itemsRepository.setUIItemsListener(listener);
         itemsRepository.getItems();
+
     }
 }

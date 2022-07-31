@@ -2,125 +2,87 @@ package com.pepe.rekrutacjagopos.data.remote.items;
 
 import android.util.Log;
 
-import com.pepe.rekrutacjagopos.data.comparators.CategorySorter;
-import com.pepe.rekrutacjagopos.data.comparators.NameSorter;
-import com.pepe.rekrutacjagopos.data.comparators.PriceAmountSorter;
+import com.pepe.rekrutacjagopos.data.local.LocalDataSource;
 import com.pepe.rekrutacjagopos.data.local.ObjectBox;
-import com.pepe.rekrutacjagopos.data.model.ui.ItemsUIModel;
-import com.pepe.rekrutacjagopos.data.local.ItemsLocalDataSource;
+import com.pepe.rekrutacjagopos.data.local.model.LocalItemModel;
+import com.pepe.rekrutacjagopos.data.mapper.ProductMapper;
+import com.pepe.rekrutacjagopos.data.model.ui.ItemModelUI;
 import com.pepe.rekrutacjagopos.data.remote.model.item.ItemRetrofitModel;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
 import io.objectbox.Box;
 
 public class ItemsRepository {
-    private final com.pepe.rekrutacjagopos.data.local.ItemsLocalDataSource itemsLocalDataSource;
+
+    private final LocalDataSource localDataSource;
     private final ItemsRemoteDataSource itemsRemoteDataSource;
+    private ProductListener productListener;
 
     private static final String TAG = ItemsRepository.class.getSimpleName();
 
-    private ItemsListener itemsListener;
-    private Box<ItemsLocalDataSource> localBox;
 
-    public interface ItemsListener {
-        void onItemsLoaded(List<ItemsUIModel> itemsUIModel);
-    }
-
-    private final ItemsRemoteDataSource.DataListener dataListener = new ItemsRemoteDataSource.DataListener() {
+    private ItemsRemoteDataSource.DataListener dataListener = new ItemsRemoteDataSource.DataListener() {
         @Override
-        public void onItemsLoaded(List<ItemRetrofitModel> retrofitResponse) {
-            localBox = ObjectBox.get().boxFor(ItemsLocalDataSource.class);
+        public void onResponse(List<ItemRetrofitModel> retrofitResponse) {
+            Log.d(TAG, "REMOTE list, SIZE: " + retrofitResponse.size());
 
-            if (retrofitResponse != null) {
+                localDataSource.setLocalItems(retrofitResponse);
 
-                retrofitResponse.sort(new CategorySorter()
-                        .thenComparing(new PriceAmountSorter())
-                        .thenComparing(new NameSorter()));
-
-                List<ItemsUIModel> itemsUIModelList = new ArrayList<>();
-
-                itemsLocalDataSource.productName = new ArrayList<>();
-
-                for (int i = 0; i < retrofitResponse.size(); i++) {
-
-                    itemsLocalDataSource.productName.add(retrofitResponse.get(i).name);
-
-                    ItemsUIModel itemsUIModel;
-
-                    if (retrofitResponse.get(i).imageModel != null) {
-                        itemsUIModel = new ItemsUIModel(formatName(retrofitResponse.get(i).name), formatCategory(retrofitResponse.get(i).category),
-                                formatPrice(retrofitResponse.get(i).price.amount, retrofitResponse.get(i).price.currency),
-                                formatTax(retrofitResponse.get(i).tax), retrofitResponse.get(i).imageModel.smallImage);
-
-                    } else {
-                        itemsUIModel = new ItemsUIModel(formatName(retrofitResponse.get(i).name), formatCategory(retrofitResponse.get(i).category),
-                                formatPrice(retrofitResponse.get(i).price.amount, retrofitResponse.get(i).price.currency), formatTax(retrofitResponse.get(i).tax));
-                    }
-                    itemsUIModelList.add(itemsUIModel);
-                }
-                localBox.put(itemsLocalDataSource);
-                itemsListener.onItemsLoaded(itemsUIModelList);
-            }
         }
     };
 
-    public void setItemsListener(ItemsListener listener) {
-        itemsListener = listener;
+    private LocalDataSource.ItemsListener itemsListener = () -> {
+        Box<LocalItemModel> localBox = ObjectBox.get().boxFor(LocalItemModel.class);
+        List<LocalItemModel> boxList = localBox.getAll();
+
+        setUIModel(boxList);
+    };
+
+    public interface ProductListener {
+        void onItemsLoaded(List<ItemModelUI> items);
     }
 
+    public void setUIItemsListener(ProductListener listener) {
+        productListener = listener;
+    }
+
+
     @Inject
-    public ItemsRepository(ItemsLocalDataSource itemsLocalDataSource, ItemsRemoteDataSource itemsRemoteDataSource) {
-        this.itemsLocalDataSource = itemsLocalDataSource;
+    public ItemsRepository(LocalDataSource localDataSource, ItemsRemoteDataSource itemsRemoteDataSource) {
+        this.localDataSource = localDataSource;
         this.itemsRemoteDataSource = itemsRemoteDataSource;
 
     }
 
     public void getItems() {
-        Log.d("getItems REPO", "getites started");
+        Log.d("getItems REPO", "get items started");
+        localDataSource.setProductsListener(itemsListener);
+        itemsListener.localDataLoaded();
+        itemsRemoteDataSource.setDataListener(dataListener);
+        itemsRemoteDataSource.getRemoteItems();
 
-        itemsRemoteDataSource.setItemsListener(dataListener);
-        itemsRemoteDataSource.getItems();
     }
 
-    private String formatTax(int tax) {
-        if (tax == 1) {
-            return "23%";
-        } else {
-            if (tax == 2) {
-                return "8%";
-            } else {
-                return "";
+    private void setUIModel(List<LocalItemModel> itemModel) {
+        Box<ItemModelUI> uiModelBox = ObjectBox.get().boxFor(ItemModelUI.class);
+        List<ItemModelUI> uiList = uiModelBox.getAll();
+
+        Log.d(TAG, "ITEMS REPOSITORY FORMAT DATA: " + itemModel.size());
+
+        List<ItemModelUI> itemModelUIList = itemModel.stream().map(ProductMapper::mapToUIModel).collect(Collectors.toList());
+
+        if (!uiList.isEmpty()) {
+            if (itemModelUIList.size() != uiList.size()) {
+                uiModelBox.removeAll();
+                uiModelBox.put(itemModelUIList);
             }
-        }
-    }
-
-    private String formatCategory(int category) {
-        if (category == 1) {
-            return "NAPOJE";
         } else {
-            if (category == 2) {
-                return "FAST FOOD";
-            } else {
-                if (category == 3) {
-                    return "DESERY";
-                } else {
-                    return "";
-                }
-            }
+            uiModelBox.put(itemModelUIList);
         }
+        productListener.onItemsLoaded(uiList);
     }
-
-    private String formatPrice(int amount, String currency) {
-        return amount + " " + currency;
-    }
-
-    private String formatName(String name) {
-        return name.toUpperCase(Locale.ROOT);
-    }
-
 }
